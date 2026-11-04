@@ -1,0 +1,11 @@
+item_id,item_description,expected_action,ground_truth_source
+A,clean cardboard box,dry,https://egazette.gov.in/WriteReadData/2026/269620.pdf
+B,clean paper sheet,dry,https://egazette.gov.in/WriteReadData/2026/269620.pdf
+C,empty plastic bottle,dry,https://egazette.gov.in/WriteReadData/2026/269620.pdf
+D,empty metal can,dry,https://egazette.gov.in/WriteReadData/2026/269620.pdf
+E,empty glass jar,dry,https://egazette.gov.in/WriteReadData/2026/269620.pdf
+F,food scraps,wet,https://egazette.gov.in/WriteReadData/2026/269620.pdf
+G,photo card of a used battery,special_care,https://egazette.gov.in/WriteReadData/2026/269620.pdf
+H,clean mixed-material snack wrapper,dry,https://egazette.gov.in/WriteReadData/2026/269620.pdf
+I,fruit peel,wet,https://egazette.gov.in/WriteReadData/2026/269620.pdf
+J,photo card of a used diaper,sanitary,https://egazette.gov.in/WriteReadData/2026/269620.pdf

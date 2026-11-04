@@ -1,0 +1,135 @@
+{
+  "dataset": "TrashNet and RealWaste six overlapping material classes",
+  "dataset_sources": [
+    "https://github.com/garythung/trashnet",
+    "https://archive.ics.uci.edu/dataset/908/realwaste"
+  ],
+  "split_seed": 42,
+  "train_images": 4278,
+  "validation_images": 917,
+  "test_images": 919,
+  "classes": [
+    "cardboard",
+    "glass",
+    "metal",
+    "paper",
+    "plastic",
+    "trash"
+  ],
+  "selected_model": "rbf_svm",
+  "candidate_validation_macro_f1": {
+    "logistic_regression": 0.7788,
+    "rbf_svm": 0.8812
+  },
+  "test_accuracy": 0.8727,
+  "test_macro_f1": 0.8707,
+  "trashnet_test_accuracy": 0.8737,
+  "realwaste_test_accuracy": 0.872,
+  "trashnet_test_images": 380,
+  "realwaste_test_images": 539,
+  "confirmation_threshold": 0.5,
+  "test_auto_decision_coverage": 0.9227,
+  "test_auto_decision_accuracy": 0.9163,
+  "per_class": {
+    "cardboard": {
+      "precision": 0.9186991869918699,
+      "recall": 0.8692307692307693,
+      "f1-score": 0.8932806324110671,
+      "support": 130.0
+    },
+    "glass": {
+      "precision": 0.9083969465648855,
+      "recall": 0.8623188405797102,
+      "f1-score": 0.8847583643122676,
+      "support": 138.0
+    },
+    "metal": {
+      "precision": 0.8670212765957447,
+      "recall": 0.9005524861878453,
+      "f1-score": 0.8834688346883469,
+      "support": 181.0
+    },
+    "paper": {
+      "precision": 0.8604651162790697,
+      "recall": 0.9024390243902439,
+      "f1-score": 0.8809523809523809,
+      "support": 164.0
+    },
+    "plastic": {
+      "precision": 0.8544600938967136,
+      "recall": 0.8625592417061612,
+      "f1-score": 0.8584905660377359,
+      "support": 211.0
+    },
+    "trash": {
+      "precision": 0.8369565217391305,
+      "recall": 0.8105263157894737,
+      "f1-score": 0.8235294117647058,
+      "support": 95.0
+    },
+    "accuracy": 0.8726877040261154,
+    "macro avg": {
+      "precision": 0.8743331903445691,
+      "recall": 0.8679377796473672,
+      "f1-score": 0.870746698361084,
+      "support": 919.0
+    },
+    "weighted avg": {
+      "precision": 0.873382755653883,
+      "recall": 0.8726877040261154,
+      "f1-score": 0.8726702824754323,
+      "support": 919.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      113,
+      0,
+      0,
+      12,
+      3,
+      2
+    ],
+    [
+      1,
+      119,
+      7,
+      1,
+      10,
+      0
+    ],
+    [
+      3,
+      1,
+      163,
+      1,
+      10,
+      3
+    ],
+    [
+      4,
+      0,
+      3,
+      148,
+      5,
+      4
+    ],
+    [
+      0,
+      10,
+      9,
+      4,
+      182,
+      6
+    ],
+    [
+      2,
+      1,
+      6,
+      6,
+      3,
+      77
+    ]
+  ],
+  "limitations": "TrashNet is controlled and RealWaste is landfill imagery; neither is a field test at this collection point. Collect independently labelled phone photos before claiming real-site performance."
+}

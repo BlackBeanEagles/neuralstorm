@@ -1,0 +1,25 @@
+{
+  "guard_scope": "RealWaste Food Organics, Vegetation, Textile Trash versus BinWise's six supported materials",
+  "unsupported_categories": [
+    "Food Organics",
+    "Vegetation",
+    "Textile Trash"
+  ],
+  "split_seed": 42,
+  "supported_test_images": 919,
+  "unsupported_test_images": 175,
+  "validation_target_unknown_rejection": 0.9,
+  "guard_threshold": 0.370451,
+  "supported_test_acceptance": 0.975,
+  "unsupported_test_rejection": 0.8914,
+  "supported_auto_guidance_before_guard": 0.9227,
+  "supported_auto_guidance_after_guard": 0.9021,
+  "unsupported_auto_guidance_before_guard": 0.9029,
+  "unsupported_auto_guidance_after_guard": 0.0857,
+  "unsupported_rejection_by_category": {
+    "Food Organics": 0.9194,
+    "Vegetation": 0.9846,
+    "Textile Trash": 0.7292
+  },
+  "limitations": "This guard has only been tested on three RealWaste unsupported categories. It cannot certify that batteries, electronics, mixed packaging, or every novel item will be rejected. Use the manual 'Something else' path for those items."
+}

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#102b27" />
+    <meta
+      name="description"
+      content="Take a photo or choose an item to see practical waste sorting guidance."
+    />
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+    <title>BinWise — Know where it goes</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="BinWise home"
+          ><span class="brand-mark">↺</span
+          ><span>binwise<span class="brand-dot">.</span></span></a
+        >
+        <label class="language-picker" for="language">
+          <span data-i18n="languageLabel">Language</span>
+          <select id="language" aria-label="Guidance language">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+          </select>
+        </label>
+      </header>
+
+      <main>
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <div class="eyebrow">
+              <span class="eyebrow-line"></span><span data-i18n="heroEyebrow">Small action. Cleaner sorting.</span>
+            </div>
+            <h1 id="hero-title"><span data-i18n="heroLineOne">Know where</span><br /><span data-i18n="heroLineTwo">it </span><em data-i18n="heroEm">goes.</em></h1>
+            <p data-i18n="heroBody">
+              Take a photo or choose an item. Get a sorting step based on the
+              guidance for your area.
+            </p>
+            <a class="hero-link" href="#scan"
+              ><span data-i18n="heroCta">Start sorting</span> <span aria-hidden="true">↘</span></a
+            >
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="art-orbit art-orbit-one"></div>
+            <div class="art-orbit art-orbit-two"></div>
+            <div class="art-object bottle">
+              <div class="bottle-cap"></div>
+              <div class="bottle-body"><div class="bottle-label"></div></div>
+            </div>
+            <div class="art-sparkle sparkle-one">✳</div>
+            <div class="art-sparkle sparkle-two">✦</div>
+            <div class="art-card">
+              <span class="art-check">✓</span
+              ><span
+                ><span data-i18n="artItem">Plastic bottle</span><br /><strong data-i18n="artAdvice">Check local rules</strong></span
+              >
+            </div>
+            <div class="art-caption" data-i18n="artCaption">SCAN → SORT → DONE</div>
+          </div>
+        </section>
+
+        <section class="scan-section" id="scan" aria-labelledby="scan-title">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow dark" data-i18n="scanEyebrow">GET STARTED</div>
+              <h2 id="scan-title" data-i18n="scanTitle">Sort an item</h2>
+            </div>
+          </div>
+          <div class="workspace">
+            <div class="input-card">
+              <div class="field-head">
+                <span data-i18n="locationLabel">Guidance area</span
+                ><span class="field-hint" data-i18n="locationHint">Rules depend on where you are</span>
+              </div>
+              <select
+                id="location"
+                aria-label="Guidance area"
+                aria-describedby="location-description"
+              ></select>
+              <div id="location-static" class="location-static" hidden></div>
+              <p id="location-description" class="location-description"></p>
+              <a
+                id="location-source"
+                class="location-source"
+                target="_blank"
+                rel="noopener noreferrer"
+                hidden
+              ></a>
+              <div class="qr-section">
+                <button id="qr-open" class="secondary-button" type="button" hidden>
+                  <span aria-hidden="true">▦</span>
+                  <span data-i18n="qrOpen">Show guide QR code</span>
+                </button>
+                <div id="qr-panel" class="qr-panel" hidden>
+                  <h3 data-i18n="qrTitle">Share this guide</h3>
+                  <p id="qr-profile"></p>
+                  <img id="qr-image" alt="QR code for this BinWise guide" />
+                  <p id="qr-note"></p>
+                  <label for="qr-url" data-i18n="qrLinkLabel">Link encoded in the QR code</label>
+                  <input id="qr-url" type="text" readonly />
+                  <p id="qr-print-url"></p>
+                  <p id="qr-local-warning" class="qr-warning" data-i18n="qrLocalWarning" hidden>
+                    This preview link works only on this computer. Open a shared version of BinWise before printing a QR card.
+                  </p>
+                  <div class="qr-actions">
+                    <button id="qr-copy" type="button" data-i18n="qrCopy">Copy link</button>
+                    <a id="qr-download" download="binwise-guide-qr.svg" data-i18n="qrDownload">Download QR</a>
+                    <button id="qr-print" type="button" data-i18n="qrPrint">Print card</button>
+                  </div>
+                  <p id="qr-status" role="status" aria-live="polite"></p>
+                </div>
+              </div>
+              <div class="field-head item-heading">
+                <label for="file-input" data-i18n="itemLabel">Your item</label
+                ><span class="field-hint" data-i18n="itemHint">One item per photo</span>
+              </div>
+              <label class="upload-zone" for="file-input" id="upload-zone">
+                <span class="upload-icon">▧</span>
+                <span class="upload-title" data-i18n="uploadTitle">Take a photo or upload one</span>
+                <span class="upload-subtitle" data-i18n="uploadSubtitle"
+                  >JPEG, PNG or WebP · up to 10 MB</span
+                >
+                <img id="preview" alt="Selected waste item" hidden />
+              </label>
+              <input
+                id="file-input"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                capture="environment"
+              />
+              <p class="unsupported-warning" data-i18n="unsupportedWarning">
+                Batteries, medicines, sanitary waste, and e-waste may need
+                special handling. Check local instructions.
+              </p>
+              <button
+                id="scan-button"
+                class="primary-button"
+                type="button"
+                disabled
+              >
+                Check this item <span aria-hidden="true">↗</span>
+              </button>
+              <p id="status" class="status" role="status" aria-live="polite">
+                Choose an item to start.
+              </p>
+              <div class="text-lookup">
+                <h3 data-i18n="textTitle">No camera? Type your item</h3>
+                <p data-i18n="textHint">
+                  Choose a known item from the suggestions. No photo is sent.
+                </p>
+                <form id="text-form">
+                  <label for="text-input" data-i18n="textLabel">Item name</label>
+                  <div class="text-controls">
+                    <input
+                      id="text-input"
+                      type="text"
+                      list="item-suggestions"
+                      autocomplete="off"
+                      placeholder="e.g. plastic bottle or food scraps"
+                    />
+                    <datalist id="item-suggestions"></datalist>
+                    <button type="submit" data-i18n="textButton">Look up</button>
+                  </div>
+                </form>
+                <div class="quick-items">
+                  <span data-i18n="quickTitle">Or choose a common item</span>
+                  <div id="quick-items" class="quick-item-buttons"></div>
+                </div>
+                <p id="text-status" class="status" role="status" aria-live="polite"></p>
+              </div>
+            </div>
+
+            <div class="result-card" id="result-card" aria-live="polite">
+              <div class="result-empty" id="result-empty">
+                <div class="result-empty-icon">?</div>
+                <h3 data-i18n="emptyTitle">Your answer appears here</h3>
+                <p data-i18n="emptyHint">
+                  Scan one item to see its material, suggested bin, and a
+                  practical sorting tip.
+                </p>
+              </div>
+              <div id="result-content" hidden>
+                <div class="result-topline">
+                  <span class="result-kicker" data-i18n="resultKicker">SORTING STEP</span
+                  ><span id="confidence-label" class="confidence-label"></span>
+                </div>
+                <h3 id="material-name"></h3>
+                <p id="result-intro" class="result-intro"></p>
+                <div id="uncertain-box" class="uncertain-box" hidden>
+                  <strong id="uncertain-title">Help us check this one.</strong
+                  ><span id="uncertain-description"
+                    >Choose the material below before following a bin
+                    recommendation.</span
+                  >
+                </div>
+                <div id="prep-box" class="prep-box" hidden>
+                  <h4 data-i18n="prepTitle">Quick preparation check</h4>
+                  <div id="prep-empty-row" class="prep-row" hidden>
+                    <span data-i18n="emptyQuestion">Is the item empty?</span>
+                    <div>
+                      <button type="button" data-prep="empty" data-answer="yes" data-i18n="yes">Yes</button>
+                      <button type="button" data-prep="empty" data-answer="no" data-i18n="noUnsure">No / unsure</button>
+                    </div>
+                  </div>
+                  <div class="prep-row">
+                    <span data-i18n="cleanQuestion">Is it free of food and liquid?</span>
+                    <div>
+                      <button type="button" data-prep="clean" data-answer="yes" data-i18n="yes">Yes</button>
+                      <button type="button" data-prep="clean" data-answer="no" data-i18n="noUnsure">No / unsure</button>
+                    </div>
+                  </div>
+                  <p id="prep-note" role="status" aria-live="polite"></p>
+                </div>
+                <div id="bin-box" class="bin-box" hidden>
+                  <div class="bin-icon" id="bin-icon"></div>
+                  <div>
+                    <span class="bin-label" data-i18n="takeTo">TAKE IT TO</span
+                    ><strong id="bin-name"></strong>
+                  </div>
+                </div>
+                <p id="instruction" class="instruction"></p>
+                <button id="listen-button" class="listen-button" type="button" hidden>
+                  <span aria-hidden="true">🔊</span>
+                  <span data-i18n="listen">Read advice aloud</span>
+                </button>
+                <div class="alternatives">
+                  <span data-i18n="differentMaterial">Is the material different?</span>
+                  <div id="material-options" class="material-options"></div>
+                </div>
+                <p id="result-disclaimer" class="result-disclaimer"></p>
+                <div id="feedback-box" class="feedback-box" hidden>
+                  <h4 data-i18n="feedbackTitle">Was this advice correct?</h4>
+                  <p data-i18n="feedbackPrivacy">Help us spot mistakes. No photo or name is saved with feedback.</p>
+                  <div id="feedback-actions" class="feedback-actions">
+                    <button type="button" data-feedback="correct" data-i18n="feedbackCorrect">Yes, correct</button>
+                    <button type="button" data-feedback="wrong_material" data-i18n="feedbackMaterial">Wrong material</button>
+                    <button type="button" data-feedback="wrong_rule" data-i18n="feedbackRule">Local rule differs</button>
+                  </div>
+                  <div id="feedback-correction" class="feedback-correction" hidden>
+                    <label for="feedback-material" data-i18n="feedbackChoose">What material is it?</label>
+                    <select id="feedback-material"></select>
+                    <button id="feedback-send" type="button" data-i18n="feedbackSend">Send correction</button>
+                  </div>
+                  <p id="feedback-status" role="status" aria-live="polite"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="how-section" aria-labelledby="how-title">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow dark" data-i18n="howEyebrow">A SIMPLE WAY TO SORT</div>
+              <h2 id="how-title" data-i18n="howTitle">How to use BinWise</h2>
+            </div>
+          </div>
+          <div class="how-grid">
+            <div class="how-card">
+              <span class="how-number">01</span>
+              <div class="how-icon">▧</div>
+              <h3 data-i18n="howOneTitle">Choose one item</h3>
+              <p data-i18n="howOneBody">Take a clear photo or pick a common item from the list.</p>
+            </div>
+            <div class="how-card">
+              <span class="how-number">02</span>
+              <div class="how-icon">⌖</div>
+              <h3 data-i18n="howTwoTitle">Check its condition</h3>
+              <p data-i18n="howTwoBody">Tell us if the item is empty and free of food or liquid.</p>
+            </div>
+            <div class="how-card">
+              <span class="how-number">03</span>
+              <div class="how-icon">✓</div>
+              <h3 data-i18n="howThreeTitle">Follow the guide</h3>
+              <p data-i18n="howThreeBody">Read the sorting step, then check local collection instructions.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="note-section">
+          <div>
+            <div class="eyebrow" data-i18n="noteEyebrow">SORT WITH CARE</div>
+            <h2 data-i18n="noteTitle">Local rules come first.</h2>
+          </div>
+          <p id="note-body" data-i18n="noteBody">BinWise shows India-wide sorting guidance. It does not identify your exact bin or pickup point. It cannot check hidden food or liquid. Follow your local authority’s instructions.</p>
+        </section>
+      </main>
+
+      <footer>
+        <span class="brand footer-brand"
+          ><span class="brand-mark">↺</span
+          ><span>binwise<span class="brand-dot">.</span></span></span
+        ><span data-i18n="footerNote">Check local instructions before disposal.</span>
+      </footer>
+    </div>
+  </body>
+</html>

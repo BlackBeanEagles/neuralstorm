@@ -1,0 +1,83 @@
+{
+  "locations": [
+    {
+      "id": "india-2026",
+      "name": "India-wide sorting guide",
+      "name_hi": "भारत-व्यापी कचरा छँटाई गाइड",
+      "description": "Four household waste categories. Your local authority decides the exact bin and collection point.",
+      "description_hi": "घरेलू कचरे की चार श्रेणियाँ। सही डिब्बा और संग्रह स्थान आपका स्थानीय निकाय तय करता है।",
+      "qr_shareable": true,
+      "qr_note": "This guide explains India-wide waste categories. It does not identify your exact bin or collection point.",
+      "qr_note_hi": "यह गाइड भारत-व्यापी कचरे की श्रेणियाँ बताती है। यह आपके खास डिब्बे या संग्रह स्थान को नहीं बताती।",
+      "scope": "India-wide source separation; not a site-specific bin map",
+      "source": {
+        "title": "Solid Waste Management Rules, 2026 — Gazette of India, rule 5",
+        "url": "https://egazette.gov.in/WriteReadData/2026/269620.pdf",
+        "reviewed_on": "2026-11-01"
+      },
+      "manual_materials": [
+        {"id": "food_organics", "name": "Food / organics", "name_hi": "भोजन / जैविक कचरा"},
+        {"id": "sanitary", "name": "Sanitary waste", "name_hi": "सैनिटरी कचरा"},
+        {"id": "special_care", "name": "Special-care waste", "name_hi": "विशेष देखभाल वाला कचरा"}
+      ],
+      "bins": {
+        "dry": {"name": "Dry waste", "name_hi": "सूखा कचरा", "color": "#3ca789", "icon": "♻"},
+        "wet": {"name": "Wet waste", "name_hi": "गीला कचरा", "color": "#66a66b", "icon": "◈"},
+        "sanitary": {"name": "Sanitary waste", "name_hi": "सैनिटरी कचरा", "color": "#b88086", "icon": "▣"},
+        "special_care": {"name": "Special-care waste", "name_hi": "विशेष देखभाल वाला कचरा", "color": "#ba8857", "icon": "!"},
+        "check": {"name": "Check local instructions", "name_hi": "स्थानीय निर्देश देखें", "color": "#628dd8", "icon": "?"}
+      },
+      "materials": {
+        "cardboard": {"bin": "dry", "instruction": "Keep separate from wet, sanitary, and special-care waste. Ask your local collector where dry waste is handed over.", "instruction_hi": "इसे गीले, सैनिटरी और विशेष कचरे से अलग रखें। सूखा कचरा कहाँ देना है, स्थानीय संग्रहकर्ता से पूछें।"},
+        "paper": {"bin": "dry", "instruction": "Keep separate from wet, sanitary, and special-care waste. Follow local instructions for soiled paper.", "instruction_hi": "इसे गीले, सैनिटरी और विशेष कचरे से अलग रखें। गंदे कागज़ के लिए स्थानीय निर्देश देखें।"},
+        "plastic": {"bin": "dry", "instruction": "Empty the item if possible. Keep it in the dry waste stream; local collection rules decide how each plastic type is handled.", "instruction_hi": "यदि संभव हो तो इसे खाली करें। इसे सूखे कचरे में रखें। प्लास्टिक के प्रकार के लिए स्थानीय नियम देखें।"},
+        "metal": {"bin": "dry", "instruction": "Empty the item if possible. Keep it separate from wet, sanitary, and special-care waste.", "instruction_hi": "यदि संभव हो तो इसे खाली करें। इसे गीले, सैनिटरी और विशेष कचरे से अलग रखें।"},
+        "glass": {"bin": "dry", "instruction": "Keep ordinary glass separate from wet waste. Ask your local collector how glass and broken glass are accepted.", "instruction_hi": "सामान्य काँच को गीले कचरे से अलग रखें। टूटे काँच के लिए स्थानीय संग्रहकर्ता से पूछें।"},
+        "trash": {"bin": "check", "instruction": "This class is too broad to choose a stream. Check whether the item is wet, dry, sanitary, or special-care waste and follow local instructions.", "instruction_hi": "यह श्रेणी बहुत व्यापक है। देखें कि वस्तु गीली, सूखी, सैनिटरी या विशेष श्रेणी में आती है, फिर स्थानीय निर्देश मानें।"},
+        "food_organics": {"bin": "wet", "instruction": "Keep food and other kitchen organics in the wet-waste stream. Follow local collection or composting instructions.", "instruction_hi": "भोजन और रसोई के जैविक कचरे को गीले कचरे में रखें। स्थानीय संग्रह या खाद बनाने के निर्देश देखें।"},
+        "sanitary": {"bin": "sanitary", "instruction": "Wrap used sanitary waste securely as your local authority instructs. Keep it separate from wet, dry, and special-care waste.", "instruction_hi": "इस्तेमाल किए गए सैनिटरी कचरे को स्थानीय निर्देशों के अनुसार अच्छी तरह लपेटें। इसे अन्य कचरे से अलग रखें।"},
+        "special_care": {"bin": "special_care", "instruction": "Keep items such as household batteries or expired medicines separate. Ask your local authority about authorised collection; do not put them in regular bins.", "instruction_hi": "घरेलू बैटरी और समाप्त दवाएँ अलग रखें। अधिकृत संग्रह के लिए स्थानीय निकाय से पूछें। इन्हें सामान्य डिब्बे में न डालें।"}
+      }
+    },
+    {
+      "id": "campus-demo",
+      "sample": true,
+      "name": "Campus pilot (sample rules)",
+      "description": "Illustrative three-bin setup. Replace with your collection point's verified rules before public use.",
+      "qr_shareable": false,
+      "bins": {
+        "recycling": {"name": "Recycling", "color": "#3ca789", "icon": "♻"},
+        "glass": {"name": "Glass collection", "color": "#628dd8", "icon": "◈"},
+        "general": {"name": "General waste", "color": "#e6a254", "icon": "▣"}
+      },
+      "materials": {
+        "cardboard": {"bin": "recycling", "instruction": "Flatten it and keep it clean and dry."},
+        "paper": {"bin": "recycling", "instruction": "Keep it clean and dry."},
+        "plastic": {"bin": "recycling", "instruction": "Empty it first. Check the local rules for this plastic type."},
+        "metal": {"bin": "recycling", "instruction": "Empty the container first; beware of sharp edges."},
+        "glass": {"bin": "glass", "instruction": "Place it carefully in the glass collection bin. Do not put broken glass in by hand."},
+        "trash": {"bin": "general", "instruction": "Use general waste when this item cannot be recovered here."}
+      }
+    },
+    {
+      "id": "office-demo",
+      "sample": true,
+      "name": "Office pilot (sample rules)",
+      "description": "Illustrative two-bin setup. Glass needs separate collection at this example site.",
+      "qr_shareable": false,
+      "bins": {
+        "recycling": {"name": "Dry recycling", "color": "#3ca789", "icon": "♻"},
+        "general": {"name": "General waste", "color": "#e6a254", "icon": "▣"},
+        "ask": {"name": "Ask the site team", "color": "#628dd8", "icon": "?"}
+      },
+      "materials": {
+        "cardboard": {"bin": "recycling", "instruction": "Flatten it and keep it clean and dry."},
+        "paper": {"bin": "recycling", "instruction": "Keep it clean and dry."},
+        "plastic": {"bin": "recycling", "instruction": "Only accepted plastic packaging belongs here; check the site label."},
+        "metal": {"bin": "recycling", "instruction": "Empty the container first."},
+        "glass": {"bin": "ask", "instruction": "This example site collects glass separately. Ask the site team where to take it."},
+        "trash": {"bin": "general", "instruction": "Use general waste when this item cannot be recovered here."}
+      }
+    }
+  ]
+}
