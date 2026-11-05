@@ -22,7 +22,8 @@ MEDIA = ROOT / "media"
 VOICE = ROOT.parent.parent / "work" / "cinematic-voice"
 OUT = MEDIA / "binwise-cinematic-demo.mp4"
 W, H, FPS = 1280, 720, 24
-TRANSITION = 0.55
+TRANSITION = 0.70
+NARRATION_GAP = 0.70
 DARK = "#102D29"
 DEEP = "#09211E"
 MINT = "#A8DFBF"
@@ -94,7 +95,7 @@ def load_voice() -> tuple[list[float], list[np.ndarray], int]:
             rate = wav.getframerate()
             parts.append(np.frombuffer(wav.readframes(wav.getnframes()),
                                        dtype="<i2").astype(np.float32) / 32768)
-    durations = [len(part) / rate + 1.0 + (TRANSITION if index < 15 else 0)
+    durations = [len(part) / rate + NARRATION_GAP + (TRANSITION if index < 15 else 1.0)
                  for index, part in enumerate(parts)]
     durations[11] += 2.0  # The QR stays in view without animation.
     return durations, parts, rate
@@ -105,19 +106,6 @@ def scene_starts(durations: list[float]) -> list[float]:
     for duration in durations[:-1]:
         starts.append(starts[-1] + duration - TRANSITION)
     return starts
-
-
-def camera(image: Image.Image, t: float, duration: float,
-           zoom: float = 1.07, focus_x: int = 640) -> Image.Image:
-    progress = ease(t / max(0.1, duration))
-    scale = 1.0 + (zoom - 1.0) * progress
-    crop_w, crop_h = W / scale, H / scale
-    desired_x = 640 + (focus_x - 640) * progress
-    center_x = min(W - crop_w / 2, max(crop_w / 2, desired_x))
-    left = round(center_x - crop_w / 2)
-    top = round((H - crop_h) / 2)
-    return image.crop((left, top, left + round(crop_w), top + round(crop_h))).resize(
-        (W, H), Image.Resampling.BICUBIC)
 
 
 def caption(frame: Image.Image, index: int) -> None:
@@ -161,11 +149,9 @@ def line_art(t: float) -> Image.Image:
     return frame
 
 
-def product_screen(source: Image.Image, t: float, duration: float,
-                   focus_x: int = 640) -> Image.Image:
+def product_screen(source: Image.Image) -> Image.Image:
     frame = Image.new("RGB", (W, H), DEEP)
-    screenshot = camera(source, t, duration, 1.08, focus_x)
-    screenshot = screenshot.resize((1144, 644), Image.Resampling.LANCZOS)
+    screenshot = source.resize((1144, 644), Image.Resampling.LANCZOS)
     mask = Image.new("L", screenshot.size)
     ImageDraw.Draw(mask).rounded_rectangle((0, 0, 1143, 643), radius=24, fill=255)
     frame.paste(screenshot, (68, 8), mask)
@@ -222,14 +208,13 @@ def ending() -> Image.Image:
     d.text((439, 290), "Know where it goes.", font=font(43, True), fill="#287A5C")
     d.line((437, 384, 844, 384), fill="#C6DACB", width=3)
     d.text((440, 425), "Check  •  Prepare  •  Sort", font=font(29), fill=DARK)
-    d.text((440, 510), "Created by Hridya Jain", font=font(25), fill="#55766A")
     return frame
 
 
 def render_scene(index: int, t: float, duration: float,
                  assets: dict[str, Image.Image]) -> Image.Image:
     if index == 0:
-        frame = camera(assets["story"], t, duration, 1.045, 640)
+        frame = assets["story"].copy()
     elif index == 1:
         frame = line_art(t)
     elif index == 7:
@@ -240,7 +225,7 @@ def render_scene(index: int, t: float, duration: float,
         frame = inset_panel(assets["feedback"], "SPOT A\nMISTAKE?",
                             "Tell BinWise what changed.", t, duration)
     elif index == 14:
-        frame = camera(assets["sort"], t, duration, 1.045, 640)
+        frame = assets["sort"].copy()
         d = ImageDraw.Draw(frame)
         d.text((815, 125), "LOCAL SIGNS", font=font(48, True), fill=DARK,
                stroke_width=2, stroke_fill=WHITE)
@@ -253,8 +238,7 @@ def render_scene(index: int, t: float, duration: float,
         key = {2: "retake", 3: "choose", 4: "cardboard", 5: "prep",
                6: "no_guess", 8: "food", 9: "battery", 10: "hindi",
                13: "sample"}[index]
-        focus_x = 675 if index in (2, 4, 5, 6, 8, 9, 10, 13) else 640
-        frame = product_screen(assets[key], t, duration, focus_x)
+        frame = product_screen(assets[key])
     caption(frame, index)
     return frame
 
@@ -267,11 +251,12 @@ def render_at(seconds: float, starts: list[float], durations: list[float],
     if index and local < TRANSITION:
         previous = render_scene(index - 1, seconds - starts[index - 1],
                                 durations[index - 1], assets)
+        # A short dip keeps adjacent captions separate and makes each scene legible.
         blank = Image.new("RGB", (W, H), DEEP)
-        if local < TRANSITION / 2:
-            return Image.blend(previous, blank, ease(local / (TRANSITION / 2)))
-        return Image.blend(blank, current,
-                           ease((local - TRANSITION / 2) / (TRANSITION / 2)))
+        halfway = TRANSITION / 2
+        if local < halfway:
+            return Image.blend(previous, blank, ease(local / halfway))
+        return Image.blend(blank, current, ease((local - halfway) / halfway))
     return current
 
 
@@ -280,13 +265,29 @@ def soundtrack(durations: list[float], starts: list[float],
     total = starts[-1] + durations[-1]
     clock = np.arange(round(total * rate), dtype=np.float32) / rate
     mix = np.zeros(len(clock), dtype=np.float32)
-    # Quiet sustained tones support the narration without competing with it.
+    # A restrained original musical bed runs continuously beneath the voice.
     for frequency, amplitude in ((130.81, 0.004), (164.81, 0.0025),
                                  (196.0, 0.0015)):
         mix += amplitude * np.sin(2 * np.pi * frequency * clock) * (
             0.82 + 0.18 * np.sin(2 * np.pi * 0.13 * clock))
+    melody = (261.63, 329.63, 392.00, 329.63,
+              220.00, 261.63, 329.63, 261.63,
+              174.61, 220.00, 261.63, 220.00,
+              196.00, 246.94, 293.66, 246.94)
+    beat = 0.75
+    for note_index, at in enumerate(np.arange(0, total, beat)):
+        start = round(float(at) * rate)
+        length = min(round(0.59 * rate), len(mix) - start)
+        if length <= 0:
+            break
+        note_time = np.arange(length, dtype=np.float32) / rate
+        envelope = (1 - np.exp(-note_time * 42)) * np.exp(-note_time * 6)
+        frequency = melody[note_index % len(melody)]
+        mix[start:start + length] += 0.010 * envelope * (
+            np.sin(2 * np.pi * frequency * note_time)
+            + 0.18 * np.sin(4 * np.pi * frequency * note_time))
     for index, voice in enumerate(voices):
-        start = round((starts[index] + 0.56) * rate)
+        start = round((starts[index] + TRANSITION) * rate)
         timeline = np.arange(len(voice), dtype=np.float32) / rate
         envelope = np.minimum(1, timeline / 0.04) * np.minimum(
             1, (len(voice) / rate - timeline) / 0.08)
