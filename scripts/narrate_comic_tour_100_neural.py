@@ -45,10 +45,11 @@ async def synthesize(lines: list[str], output: Path, voice: str, rate: str) -> N
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-directory", type=Path, required=True)
+    parser.add_argument("--script", type=Path, default=LINES)
     parser.add_argument("--voice", default="en-IN-NeerjaNeural")
     parser.add_argument("--rate", default="+10%")
     args = parser.parse_args()
-    lines = [line.strip() for line in LINES.read_text(encoding="utf-8").splitlines()
+    lines = [line.strip() for line in args.script.read_text(encoding="utf-8").splitlines()
              if line.strip()]
     if len(lines) != 16:
         raise ValueError("Expected exactly 16 narration lines")

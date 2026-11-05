@@ -45,7 +45,7 @@ def main() -> None:
         cwd=ROOT, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
     )
     try:
-        for _ in range(80):
+        for _ in range(300):
             try:
                 with urllib.request.urlopen(f"{URL}/api/health", timeout=1):
                     break
@@ -91,6 +91,15 @@ def main() -> None:
 
             page.locator("#language").select_option("hi")
             capture(page, "hindi", "#result-card")
+            page.locator("#language").select_option("en")
+            page.locator("#material-options button").filter(has_text="Something else").click()
+            capture(page, "no-guess", "#result-card")
+
+            page.goto(f"{URL}/?demo=1", wait_until="networkidle")
+            page.locator("#location").select_option("campus-demo")
+            page.locator("#quick-items button").filter(has_text="Cardboard Box").click()
+            page.locator('[data-prep="clean"][data-answer="yes"]').click()
+            capture(page, "sample-site", "#scan")
             browser.close()
     finally:
         server.terminate()
